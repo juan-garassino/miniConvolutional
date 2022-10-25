@@ -5,10 +5,10 @@ install_requirements:
 	@pip install -r requirements.txt
 
 check_code:
-	@flake8 scripts/* miniConvolutional/*.py
+	@flake8 scripts/* miniConvolutional/*.py miniConvolutional/*/*.py
 
 black:
-	@black scripts/* miniConvolutional/*.py
+	@black scripts/* miniConvolutional/*.py miniConvolutional/*/*.py
 
 test:
 	@coverage run -m pytest tests/*.py
