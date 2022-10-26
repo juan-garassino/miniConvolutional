@@ -120,25 +120,26 @@ if int(os.environ.get("CLASSIFIER")) == 1:
                     % (step, epoch, float(loss_value))
                     + Style.RESET_ALL
                 )
-
-            print(
-                "\n📶 "
-                + Fore.MAGENTA
-                + "Sample procesed so far: %d samples"
-                % ((step + 1) * int(os.environ.get("BATCH_SIZE")))
-                + Style.RESET_ALL
-            )
+            if step % 100 == 0:
+                print(
+                    "\n📶 "
+                    + Fore.MAGENTA
+                    + "Sample procesed so far: %d samples"
+                    % ((step + 1) * int(os.environ.get("BATCH_SIZE")))
+                    + Style.RESET_ALL
+                )
 
             # show accuracy at completed epoch
             train_accuracy = train_acc_metric.result()
 
-            print(
-                "\n📶 "
-                + Fore.MAGENTA
-                + "Training set accuracy is: %.4f for step %d in epoch %d"
-                % (float(train_accuracy), step, epoch)
-                + Style.RESET_ALL
-            )
+            if step % 100 == 0:
+                print(
+                    "\n📶 "
+                    + Fore.MAGENTA
+                    + "Training set accuracy is: %.4f for step %d in epoch %d"
+                    % (float(train_accuracy), step, epoch)
+                    + Style.RESET_ALL
+                )
 
             # reset training metrics before next epoc *
             train_acc_metric.reset_state()
@@ -150,21 +151,22 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
             val_acc_metric.reset_state()
 
-            print(
-                "\n📶 "
-                + Fore.MAGENTA
-                + "Validation set accuracy is: %.4f for step %d in epoch %d"
-                % (float(val_accuracy), step, epoch)
-                + Style.RESET_ALL
-            )
+            if step % 100 == 0:
+                print(
+                    "\n📶 "
+                    + Fore.MAGENTA
+                    + "Validation set accuracy is: %.4f for step %d in epoch %d"
+                    % (float(val_accuracy), step, epoch)
+                    + Style.RESET_ALL
+                )
 
-            print(
-                "\nℹ️ "
-                + Fore.CYAN
-                + "Time taken for step %d: %.2fs"
-                % (step, (time.time() - start_time_step))
-                + Style.RESET_ALL
-            )
+                print(
+                    "\nℹ️ "
+                    + Fore.CYAN
+                    + "Time taken for step %d: %.2fs"
+                    % (step, (time.time() - start_time_step))
+                    + Style.RESET_ALL
+                )
 
         print(
             "\nℹ️ "
