@@ -6,6 +6,7 @@ from tensorflow.data import Dataset
 import os
 import numpy as np
 import random
+from colorama import Fore, Style
 
 
 def source_images(generator=False, mnist=False, cifar=False):
@@ -121,11 +122,21 @@ def source_images(generator=False, mnist=False, cifar=False):
 
         unique, counts = np.unique(train_labels, return_counts=True)
 
-        print(np.asarray((unique, counts)))
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with {unique} unique classes and {counts} distribution per class"
+            + Style.RESET_ALL
+        )
 
         unique, counts = np.unique(test_labels, return_counts=True)
 
-        print(np.asarray((unique, counts)))
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with {unique} unique classes and {counts} distribution per class"
+            + Style.RESET_ALL
+        )
 
         validation_dataset = Dataset.from_tensor_slices(
             (test_images[:500], test_labels[:500])
@@ -142,9 +153,21 @@ def source_images(generator=False, mnist=False, cifar=False):
 
         train_dataset_size = len(list(train_dataset.as_numpy_iterator()))
 
-        print("Training data sample size: ", train_dataset_size)
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training data sample size: "
+            + str(train_dataset_size)
+            + Style.RESET_ALL
+        )
 
-        len(train_labels)
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Length of training labels: "
+            + str(len(train_labels))
+            + Style.RESET_ALL
+        )
 
         train_idx = list(range(len(train_labels)))
 

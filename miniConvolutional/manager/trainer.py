@@ -9,6 +9,7 @@ from miniConvolutional.model.optimizer import optimizer
 from miniConvolutional.model.metric import val_acc_metric, train_acc_metric
 from miniConvolutional.model.convolutional import Convolutional
 
+from colorama import Fore, Style
 import os
 import tensorflow as tf
 
@@ -83,37 +84,52 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
     model.build((None, 32, 32, 3))
 
+    print("\n⏹ " + Fore.BLUE + "The Model summary is" + Fore.YELLOW + "\n")
+
     print(model.summary())
 
     for epoch in range(epochs):
-        print("\nStarting epoch %d" % (epoch,))
-        start_time = time.time()
+
+        print("\n⏩ " + Fore.RED + "Epoch number %d" % (epoch + 1,) + Style.RESET_ALL)
+
+        start_time_epoch = time.time()
 
         # Iterate datasetr batches
 
         for step, (x_batch_train, y_batch_train) in enumerate(train_dataset):
 
-            print(step)
-            # print(x_batch_train)
-            # print(y_batch_train)
+            start_time_step = time.time()
 
             loss_value = train_step(x_batch_train, y_batch_train)
 
             # results every 100
             if step % 100 == 0:
+
                 print(
-                    "training loss (for one epoch) at step %d: %.4f"
+                    "\nℹ️ "
+                    + Fore.CYAN
+                    + "training loss (for one epoch) at step %d: %.4f"
                     % (step, float(loss_value))
+                    + Style.RESET_ALL
                 )
 
             print(
-                "sample procesed so far: %d samples"
+                "\n📶 "
+                + Fore.MAGENTA
+                + "sample procesed so far: %d samples"
                 % ((step + 1) * int(os.environ.get("BATCH_SIZE")))
+                + Style.RESET_ALL
             )
 
             # show accuracy at completed epoch
             train_accuracy = train_acc_metric.result()
-            print("accuracy %.4f" % (float(train_accuracy),))
+
+            print(
+                "\n📶 "
+                + Fore.MAGENTA
+                + "Training set accuracy is: %.4f" % (float(train_accuracy),)
+                + Style.RESET_ALL
+            )
 
             # reset training metrics before next epoc *
             train_acc_metric.reset_state()
@@ -122,10 +138,31 @@ if int(os.environ.get("CLASSIFIER")) == 1:
                 test_step(x_batch_val, y_batch_val)
 
             val_accuracy = val_acc_metric.result()
+
             val_acc_metric.reset_state()
 
-            print("val acc: %.4f" % (float(val_accuracy),))
-            print("time taken: %.2fs" % (time.time() - start_time))
+            print(
+                "\n📶 "
+                + Fore.MAGENTA
+                + "Validation set accuracy is: %.4f" % (float(val_accuracy),)
+                + Style.RESET_ALL
+            )
+
+            print(
+                "\n📶 "
+                + Fore.MAGENTA
+                + "Time taken for step %d: %.2fs"
+                % (step, (time.time() - start_time_step))
+                + Style.RESET_ALL
+            )
+
+        print(
+            "\n📶 "
+            + Fore.MAGENTA
+            + "Time taken for epoch %d: %.2fs"
+            % (epoch, (time.time() - start_time_epoch))
+            + Style.RESET_ALL
+        )
 
 else:
     print("No model selected")
