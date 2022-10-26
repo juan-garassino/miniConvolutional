@@ -125,14 +125,18 @@ def source_images(generator=False, mnist=False, cifar=False):
         print(
             "\nℹ️ "
             + Fore.CYAN
-            + f"Training set with unique classes: {unique}"
+            + f"Training set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
             + Style.RESET_ALL
         )
 
         print(
             "\nℹ️ "
             + Fore.CYAN
-            + f"Training set with distribution of class: {counts}"
+            + f"Training set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
             + Style.RESET_ALL
         )
 
@@ -141,14 +145,18 @@ def source_images(generator=False, mnist=False, cifar=False):
         print(
             "\nℹ️ "
             + Fore.CYAN
-            + f"Testing set with unique classes {unique}"
+            + f"Testing set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
             + Style.RESET_ALL
         )
 
         print(
             "\nℹ️ "
             + Fore.CYAN
-            + f"Testing set with distribution of class {counts}"
+            + f"Testing set with distribution of class:"
+            + "\n"
+            + f"ℹ️ \n{counts}"
             + Style.RESET_ALL
         )
 
@@ -188,8 +196,6 @@ def source_images(generator=False, mnist=False, cifar=False):
         random.seed(2)
 
         random_sel = random.sample(train_idx, 25)
-
-        print(f"{random_sel}")
 
         train_dataset = train_dataset.shuffle(50000).batch(
             int(os.environ.get("TRAIN_BATCH_SIZE"))
