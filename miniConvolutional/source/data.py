@@ -156,7 +156,7 @@ def source_images(generator=False, mnist=False, cifar=False):
             + Fore.CYAN
             + f"Testing set with distribution of class:"
             + "\n"
-            + f"ℹ️ \n{counts}"
+            + f"\nℹ️ {counts}"
             + Style.RESET_ALL
         )
 
