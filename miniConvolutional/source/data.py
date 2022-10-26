@@ -125,7 +125,14 @@ def source_images(generator=False, mnist=False, cifar=False):
         print(
             "\nℹ️ "
             + Fore.CYAN
-            + f"Training set with {unique} unique classes and {counts} distribution per class"
+            + f"Training set with unique classes: {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with distribution of class: {counts}"
             + Style.RESET_ALL
         )
 
@@ -134,7 +141,14 @@ def source_images(generator=False, mnist=False, cifar=False):
         print(
             "\nℹ️ "
             + Fore.CYAN
-            + f"Testing set with {unique} unique classes and {counts} distribution per class"
+            + f"Testing set with unique classes {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with distribution of class {counts}"
             + Style.RESET_ALL
         )
 
