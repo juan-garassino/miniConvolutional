@@ -48,7 +48,7 @@ class Convolutional(Model):
 
         x = self.cov2d_middle(x)
 
-        # x = self.maxpool2d(x)
+        x = self.maxpool2d(x)
 
         # x = self.cov2d_final(x)
 
