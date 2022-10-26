@@ -113,7 +113,7 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             loss_value = train_step(x_batch_train, y_batch_train)
 
             # results every 100
-            if step % 100 == 0:
+            if step % 1000 == 0:
 
                 print(
                     "\nℹ️ "
@@ -126,7 +126,7 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             print(
                 "\n📶 "
                 + Fore.MAGENTA
-                + "sample procesed so far: %d samples"
+                + "Sample procesed so far: %d samples"
                 % ((step + 1) * int(os.environ.get("BATCH_SIZE")))
                 + Style.RESET_ALL
             )
@@ -159,16 +159,16 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             )
 
             print(
-                "\n📶 "
-                + Fore.MAGENTA
+                "\nℹ️ "
+                + Fore.CYAN
                 + "Time taken for step %d: %.2fs"
                 % (step, (time.time() - start_time_step))
                 + Style.RESET_ALL
             )
 
         print(
-            "\n📶 "
-            + Fore.MAGENTA
+            "\nℹ️ "
+            + Fore.CYAN
             + "Time taken for epoch %d: %.2fs"
             % (epoch, (time.time() - start_time_epoch))
             + Style.RESET_ALL
