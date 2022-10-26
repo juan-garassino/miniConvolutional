@@ -38,11 +38,8 @@ class Convolutional(Model):
         x = self.maxpool2d(x)
         x = self.cov2d_mid(x)
         x = self.maxpool2d(x)
-        x = self.cov2d_end(x)
-        x = self.maxpool2d(x)
         x = self.flatten(x)
         x = self.dense(x)
         x = self.fc(x)
-        x = self.flatten(x)
 
         return x
