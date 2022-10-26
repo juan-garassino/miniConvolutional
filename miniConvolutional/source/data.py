@@ -187,4 +187,4 @@ def source_images(generator=False, mnist=False, cifar=False):
 
         STEPS_PER_EPOCH = train_dataset_size / int(os.environ.get("TRAIN_BATCH_SIZE"))
 
-        return STEPS_PER_EPOCH, random_sel, train_dataset, test_dataset
+        return train_dataset, validation_dataset, random_sel, STEPS_PER_EPOCH

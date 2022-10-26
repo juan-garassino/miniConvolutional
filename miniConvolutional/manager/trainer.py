@@ -18,7 +18,7 @@ if int(os.environ.get("AUTOENCODER")) == 1:
     (train_images, train_labels), (test_images, test_labels) = source_images(mnist=True)
 
 if int(os.environ.get("CLASSIFIER")) == 1:
-    STEPS_PER_EPOCH, random_sel, train_dataset, validation_dataset = source_images(
+    train_dataset, validation_dataset, random_sel, STEPS_PER_EPOCH = source_images(
         cifar=True
     )
 
@@ -63,13 +63,11 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             print(
                 "\nℹ️ "
                 + Fore.CYAN
-                + f"With train_label tensor {train_label}"
+                + f"With train_label {train_label}"
                 + Style.RESET_ALL
             )
 
-            print(
-                "\nℹ️ " + Fore.CYAN + f"With logits tensor {logits}" + Style.RESET_ALL
-            )
+            print("\nℹ️ " + Fore.CYAN + f"With logits {logits}" + Style.RESET_ALL)
 
             loss_value = loss(train_label, logits)
             grads = tape.gradient(loss_value, model.trainable_weights)
@@ -84,13 +82,11 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
     import time
 
+    # VER DE USAR EL GENERATOR PARA CLASIFICACION
+
     # train_dataset = train_generator  # DirectoryIterator
 
-    # train_dataset = train_images
-
     # validation_dataset = valid_generator  # DirectoryIterator
-
-    # validation_dataset = test_images
 
     model = Convolutional(32)
 
