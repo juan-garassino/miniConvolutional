@@ -118,8 +118,8 @@ if int(os.environ.get("CLASSIFIER")) == 1:
                 print(
                     "\nℹ️ "
                     + Fore.CYAN
-                    + "training loss (for one epoch) at step %d: %.4f"
-                    % (step, float(loss_value))
+                    + "training loss (for one epoch) at step %d epoch %d: %.4f"
+                    % (step, epoch, float(loss_value))
                     + Style.RESET_ALL
                 )
 
@@ -137,7 +137,8 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             print(
                 "\n📶 "
                 + Fore.MAGENTA
-                + "Training set accuracy is: %.4f" % (float(train_accuracy),)
+                + "Training set accuracy is: %.4f for step %d in epoch %d"
+                % (float(train_accuracy), step, epoch)
                 + Style.RESET_ALL
             )
 
@@ -154,7 +155,8 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             print(
                 "\n📶 "
                 + Fore.MAGENTA
-                + "Validation set accuracy is: %.4f" % (float(val_accuracy),)
+                + "Validation set accuracy is: %.4f for step %d in epoch %d"
+                % (float(val_accuracy), step, epoch)
                 + Style.RESET_ALL
             )
 
