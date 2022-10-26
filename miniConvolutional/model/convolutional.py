@@ -5,7 +5,7 @@ class Convolutional(Model):
     def __init__(self, input_dim):
         super(Convolutional, self).__init__()
         self.conv2d_initial = layers.Conv2D(
-            16,
+            32,
             kernel_size=(3, 3),
             activation="relu",
             kernel_initializer="glorot_uniform",
@@ -13,7 +13,7 @@ class Convolutional(Model):
             input_shape=(input_dim, input_dim, 3),
         )
         self.cov2d_middle = layers.Conv2D(
-            32,
+            64,
             kernel_size=(3, 3),
             activation="relu",
             kernel_initializer="glorot_uniform",
