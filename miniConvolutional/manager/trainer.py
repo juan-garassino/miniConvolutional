@@ -55,8 +55,18 @@ if int(os.environ.get("CLASSIFIER")) == 1:
     def train_step(train_data, train_label):
         with tf.GradientTape() as tape:
             logits = model(train_data, training=True)
-            print(train_label)
-            print(logits)
+
+            print(
+                "\nℹ️ "
+                + Fore.CYAN
+                + f"With train_label tensor {train_label}"
+                + Style.RESET_ALL
+            )
+
+            print(
+                "\nℹ️ " + Fore.CYAN + f"With logits tensor {logits}" + Style.RESET_ALL
+            )
+
             loss_value = loss(train_label, logits)
             grads = tape.gradient(loss_value, model.trainable_weights)
             optimizer.apply_gradients(zip(grads, model.trainable_weights))
