@@ -175,18 +175,16 @@ def source_images(generator=False, mnist=False, cifar=False):
 
         random_sel = random.sample(train_idx, 25)
 
-        random_sel
+        print(f"{random_sel}")
 
-        TRAIN_BATCH_SIZE = 200
-
-        train_dataset = train_dataset.shuffle(50000).batch(TRAIN_BATCH_SIZE)
+        train_dataset = train_dataset.shuffle(50000).batch(
+            int(os.environ.get("TRAIN_BATCH_SIZE"))
+        )
 
         validation_dataset = validation_dataset.batch(500)
 
         test_dataset = test_dataset.batch(500)
 
-        STEPS_PER_EPOCH = train_dataset_size / TRAIN_BATCH_SIZE
+        STEPS_PER_EPOCH = train_dataset_size / int(os.environ.get("TRAIN_BATCH_SIZE"))
 
-        VALIDATION_STEPS = 1
-
-        return VALIDATION_STEPS, STEPS_PER_EPOCH, train_dataset, test_dataset
+        return STEPS_PER_EPOCH, random_sel, train_dataset, test_dataset

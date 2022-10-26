@@ -13,14 +13,19 @@ from colorama import Fore, Style
 import os
 import tensorflow as tf
 
+# LOADS DATA
+if int(os.environ.get("AUTOENCODER")) == 1:
+    (train_images, train_labels), (test_images, test_labels) = source_images(mnist=True)
 
-# (train_images, train_labels), (test_images, test_labels) = source_images(mnist=True)
+if int(os.environ.get("CLASSIFIER")) == 1:
+    STEPS_PER_EPOCH, random_sel, train_dataset, validation_dataset = source_images(
+        cifar=True
+    )
 
-VALIDATION_STEPS, STEPS_PER_EPOCH, train_dataset, validation_dataset = source_images(
-    cifar=True
-)
+else:
+    print("No model selected")
 
-
+# RUN MODELS
 if int(os.environ.get("AUTOENCODER")) == 1:
 
     X_train = train_images.reshape((60000, 28, 28, 1)) / 255.0
@@ -48,7 +53,6 @@ if int(os.environ.get("AUTOENCODER")) == 1:
     # you can now display an image to see it is reconstructed well
     prediction = autoencoder.predict(X_train, verbose=0, batch_size=100)
 
-# LABELS ARE FLATTEN
 if int(os.environ.get("CLASSIFIER")) == 1:
 
     @tf.function
