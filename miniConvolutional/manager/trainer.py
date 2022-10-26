@@ -88,8 +88,6 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
     # validation_dataset = test_images
 
-    epochs = 5
-
     model = Convolutional(32)
 
     model.build((None, 32, 32, 3))
@@ -98,7 +96,7 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
     print(model.summary())
 
-    for epoch in range(epochs):
+    for epoch in range(int(os.environ.get("EPOCHS"))):
 
         print("\n⏩ " + Fore.RED + "Epoch number %d" % (epoch + 1,) + Style.RESET_ALL)
 
@@ -113,11 +111,11 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             loss_value = train_step(x_batch_train, y_batch_train)
 
             # results every 100
-            if step % 1000 == 0:
+            if step % 100 == 0:
 
                 print(
                     "\nℹ️ "
-                    + Fore.CYAN
+                    + Fore.RED
                     + "training loss (for one epoch) at step %d epoch %d: %.4f"
                     % (step, epoch, float(loss_value))
                     + Style.RESET_ALL
