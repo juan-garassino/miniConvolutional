@@ -30,12 +30,15 @@ class Convolutional(Model):
 
         self.flatten = layers.Flatten()
 
-        self.dense_initial = layers.Dense(256, activation="relu", kernel_initializer="glorot_uniform")
+        self.dense_initial = layers.Dense(
+            256, activation="relu", kernel_initializer="glorot_uniform"
+        )
 
-        self.dense_middle = layers.Dense(128,activation="relu",kernel_initializer="glorot_uniform")
+        self.dense_middle = layers.Dense(
+            128, activation="relu", kernel_initializer="glorot_uniform"
+        )
 
         self.dense_out = layers.Dense(10, activation="linear", name="custom_class")
-
 
     def call(self, input_dim):
 

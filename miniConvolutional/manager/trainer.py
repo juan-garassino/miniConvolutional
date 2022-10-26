@@ -111,7 +111,7 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             loss_value = train_step(x_batch_train, y_batch_train)
 
             # results every 100
-            if step % 100 == 0:
+            if step % int(os.environ.get("STEP_VERBOSE")) == 0:
 
                 print(
                     "\nℹ️ "
@@ -132,7 +132,7 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             # show accuracy at completed epoch
             train_accuracy = train_acc_metric.result()
 
-            if step % 100 == 0:
+            if step % int(os.environ.get("STEP_VERBOSE")) == 0:
                 print(
                     "\n📶 "
                     + Fore.MAGENTA
@@ -151,7 +151,7 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
             val_acc_metric.reset_state()
 
-            if step % 100 == 0:
+            if step % int(os.environ.get("STEP_VERBOSE")) == 0:
                 print(
                     "\n📶 "
                     + Fore.MAGENTA
