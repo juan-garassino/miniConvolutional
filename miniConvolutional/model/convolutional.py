@@ -56,7 +56,7 @@ class Convolutional(Model):
 
         x = self.dense_initial(x)
 
-        x = self.dense_middle(x)
+        # x = self.dense_middle(x)
 
         x = self.dense_out(x)
 

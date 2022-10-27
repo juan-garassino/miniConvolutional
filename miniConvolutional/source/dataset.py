@@ -62,4 +62,4 @@ def dataset_instance(train_images, train_labels, test_images, test_labels):
 
     random_sel = random.sample(train_idx, 25)
 
-    return train_dataset, validation_dataset, images_shape, random_sel, STEPS_PER_EPOCH
+    return (train_dataset, validation_dataset, images_shape, random_sel, STEPS_PER_EPOCH)
