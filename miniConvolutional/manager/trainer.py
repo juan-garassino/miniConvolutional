@@ -96,11 +96,11 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
     model = Convolutional(images_shape[1:])
 
-    model.build((images_shape[0], images_shape[1], images_shape[2], images_shape[3]))
+    #model.build((images_shape[0], images_shape[1], images_shape[2], images_shape[3]))
 
     print("\n⏹ " + Fore.BLUE + "The Model summary is" + Fore.YELLOW + "\n")
 
-    print(model.summary())
+    #print(model.summary())
 
     for epoch in range(int(os.environ.get("EPOCHS"))):
 

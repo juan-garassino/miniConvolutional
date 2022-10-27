@@ -231,8 +231,9 @@ def source_images(data=None):
 
         return train_generator, idx_labels, valid_generator
 
-    else:
-        print('No data Loaded')
+    if data == None:
+        print('No data loaded')
+
     (
         train_dataset,
         validation_dataset,
