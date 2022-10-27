@@ -1,17 +1,17 @@
 from tensorflow.keras.datasets import fashion_mnist, cifar10
 from tensorflow.keras.utils import get_file
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.data import Dataset
+
+from miniConvolutional.source.dataset import dataset_instance
 
 import os
 import numpy as np
-import random
 from colorama import Fore, Style
 
 
-def source_images(generator=False, mnist=False, cifar=False):
+def source_images(data=None):
 
-    if mnist == True:
+    if data == "mnist":
 
         (train_images, train_labels), (
             test_images,
@@ -19,16 +19,148 @@ def source_images(generator=False, mnist=False, cifar=False):
         ) = fashion_mnist.load_data()
 
         print(
-            f"The shape of the training data is: {train_images.shape} {train_labels.shape}"
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"The shape of the training data is: {train_images.shape} {train_labels.shape}"
+            + Style.RESET_ALL
         )
 
         print(
-            f"The shape of the training data is: {test_images.shape} {test_labels.shape}"
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"The shape of the testing data is: {test_images.shape} {test_labels.shape}"
+            + Style.RESET_ALL
         )
 
-        return (train_images, train_labels), (test_images, test_labels)
+        unique, counts = np.unique(train_labels, return_counts=True)
 
-    if generator == True:
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
+            + Style.RESET_ALL
+        )
+
+        unique, counts = np.unique(test_labels, return_counts=True)
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
+            + Style.RESET_ALL
+        )
+
+        (train_images, train_labels), (test_images, test_labels,) = (
+            train_images.reshape(
+                (train_images.shape[0], train_images.shape[1], train_images.shape[2], 1)
+            ),
+            train_labels,
+        ), (
+            test_images.reshape(
+                (test_images.shape[0], test_images.shape[1], test_images.shape[2], 1)
+            ),
+            test_labels,
+        )
+
+    if data == "cifar":
+
+        (train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
+
+        # Normalize pixel values to be between 0 and 1
+        train_images, test_images = train_images / 255.0, test_images / 255.0
+
+        # Plain text name in alphabetical order. https://www.cs.toronto.edu/~kriz/cifar.html
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"The shape of the training data is: {train_images.shape} {train_labels.shape}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"The shape of the testing data is: {test_images.shape} {test_labels.shape}"
+            + Style.RESET_ALL
+        )
+
+        CLASS_NAMES = [
+            "airplane",
+            "automobile",
+            "bird",
+            "cat",
+            "deer",
+            "dog",
+            "frog",
+            "horse",
+            "ship",
+            "truck",
+        ]
+
+        unique, counts = np.unique(train_labels, return_counts=True)
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
+            + Style.RESET_ALL
+        )
+
+        unique, counts = np.unique(test_labels, return_counts=True)
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
+            + Style.RESET_ALL
+        )
+
+    if data == "generator":
 
         data_dir = get_file(
             "flower_photos",
@@ -99,112 +231,12 @@ def source_images(generator=False, mnist=False, cifar=False):
 
         return train_generator, idx_labels, valid_generator
 
-    if cifar == True:
-        (train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
+    (
+        train_dataset,
+        validation_dataset,
+        dataset_shape,
+        random_sel,
+        STEPS_PER_EPOCH,
+    ) = dataset_instance(train_images, train_labels, test_images, test_labels)
 
-        # Normalize pixel values to be between 0 and 1
-        train_images, test_images = train_images / 255.0, test_images / 255.0
-
-        # Plain text name in alphabetical order. https://www.cs.toronto.edu/~kriz/cifar.html
-
-        CLASS_NAMES = [
-            "airplane",
-            "automobile",
-            "bird",
-            "cat",
-            "deer",
-            "dog",
-            "frog",
-            "horse",
-            "ship",
-            "truck",
-        ]
-
-        unique, counts = np.unique(train_labels, return_counts=True)
-
-        print(
-            "\nℹ️ "
-            + Fore.CYAN
-            + f"Training set with unique classes:"
-            + "\n"
-            + f"\nℹ️ {unique}"
-            + Style.RESET_ALL
-        )
-
-        print(
-            "\nℹ️ "
-            + Fore.CYAN
-            + f"Training set with distribution of class:"
-            + "\n"
-            + f"\nℹ️ {counts}"
-            + Style.RESET_ALL
-        )
-
-        unique, counts = np.unique(test_labels, return_counts=True)
-
-        print(
-            "\nℹ️ "
-            + Fore.CYAN
-            + f"Testing set with unique classes:"
-            + "\n"
-            + f"\nℹ️ {unique}"
-            + Style.RESET_ALL
-        )
-
-        print(
-            "\nℹ️ "
-            + Fore.CYAN
-            + f"Testing set with distribution of class:"
-            + "\n"
-            + f"\nℹ️ {counts}"
-            + Style.RESET_ALL
-        )
-
-        validation_dataset = Dataset.from_tensor_slices(
-            (test_images[:500], test_labels[:500])
-        )
-
-        test_dataset = Dataset.from_tensor_slices(
-            (test_images[500:], test_labels[500:])
-        )
-
-        # Create an instance of dataset from raw numpy images and labels.
-        train_dataset = Dataset.from_tensor_slices((train_images, train_labels))
-
-        # https://www.tensorflow.org/api_docs/python/tf/data/Dataset#transformations_2
-
-        train_dataset_size = len(list(train_dataset.as_numpy_iterator()))
-
-        print(
-            "\nℹ️ "
-            + Fore.CYAN
-            + f"Training data sample size: "
-            + str(train_dataset_size)
-            + Style.RESET_ALL
-        )
-
-        print(
-            "\nℹ️ "
-            + Fore.CYAN
-            + f"Length of training labels: "
-            + str(len(train_labels))
-            + Style.RESET_ALL
-        )
-
-        train_idx = list(range(len(train_labels)))
-
-        random.seed(2)
-
-        random_sel = random.sample(train_idx, 25)
-
-        train_dataset = train_dataset.shuffle(50000).batch(
-            int(os.environ.get("TRAIN_BATCH_SIZE"))
-        )
-
-        validation_dataset = validation_dataset.batch(500)
-
-        test_dataset = test_dataset.batch(500)
-
-        STEPS_PER_EPOCH = train_dataset_size / int(os.environ.get("TRAIN_BATCH_SIZE"))
-
-        return train_dataset, validation_dataset, random_sel, STEPS_PER_EPOCH
+    return train_dataset, validation_dataset, dataset_shape, random_sel, STEPS_PER_EPOCH

@@ -15,12 +15,18 @@ import tensorflow as tf
 
 # LOADS DATA
 if int(os.environ.get("AUTOENCODER")) == 1:
-    (train_images, train_labels), (test_images, test_labels) = source_images(mnist=True)
+    (train_images, train_labels), (test_images, test_labels) = source_images(
+        data=os.environ.get("DATA")
+    )
 
 if int(os.environ.get("CLASSIFIER")) == 1:
-    train_dataset, validation_dataset, random_sel, STEPS_PER_EPOCH = source_images(
-        cifar=True
-    )
+    (
+        train_dataset,
+        validation_dataset,
+        images_shape,
+        random_sel,
+        STEPS_PER_EPOCH,
+    ) = source_images(data=os.environ.get("DATA"))
 
 else:
     print("No model selected")
@@ -88,9 +94,9 @@ if int(os.environ.get("CLASSIFIER")) == 1:
 
     # validation_dataset = valid_generator  # DirectoryIterator
 
-    model = Convolutional(32)
+    model = Convolutional(images_shape[1:])
 
-    model.build((None, 32, 32, 3))
+    model.build((images_shape[0], images_shape[1], images_shape[2], images_shape[3]))
 
     print("\n⏹ " + Fore.BLUE + "The Model summary is" + Fore.YELLOW + "\n")
 

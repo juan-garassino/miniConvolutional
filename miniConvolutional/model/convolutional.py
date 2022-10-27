@@ -10,7 +10,7 @@ class Convolutional(Model):
             activation="relu",
             kernel_initializer="glorot_uniform",
             padding="same",
-            input_shape=(input_dim, input_dim, 3),
+            input_shape=input_dim,
         )
         self.cov2d_middle = layers.Conv2D(
             64,
