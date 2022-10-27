@@ -61,10 +61,12 @@ if int(os.environ.get("AUTOENCODER")) == 1:
 
 if int(os.environ.get("CLASSIFIER")) == 1:
 
+    model_imperative = Convolutional(images_shape[1:])
+
     @tf.function
     def train_step(train_data, train_label):
         with tf.GradientTape() as tape:
-            logits = model(train_data, training=True)
+            logits = model_imperative(train_data, training=True)
 
             print(
                 "\nℹ️ "
@@ -76,14 +78,16 @@ if int(os.environ.get("CLASSIFIER")) == 1:
             print("\nℹ️ " + Fore.CYAN + f"With logits {logits}" + Style.RESET_ALL)
 
             loss_value = loss(train_label, logits)
-            grads = tape.gradient(loss_value, model.trainable_weights)
-            optimizer.apply_gradients(zip(grads, model.trainable_weights))
+            grads = tape.gradient(loss_value,
+                                  model_imperative.trainable_weights)
+            optimizer.apply_gradients(
+                zip(grads, model_imperative.trainable_weights))
             train_acc_metric.update_state(train_label, logits)
         return loss_value
 
     @tf.function
     def test_step(validation_data, validation_label):
-        val_logits = model(validation_data, training=False)
+        val_logits = model_imperative(validation_data, training=False)
         val_acc_metric.update_state(validation_label, val_logits)
 
     import time
@@ -93,8 +97,6 @@ if int(os.environ.get("CLASSIFIER")) == 1:
     # train_dataset = train_generator  # DirectoryIterator
 
     # validation_dataset = valid_generator  # DirectoryIterator
-
-    model = Convolutional(images_shape[1:])
 
     #model.build((images_shape[0], images_shape[1], images_shape[2], images_shape[3]))
 
