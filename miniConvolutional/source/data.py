@@ -1,4 +1,4 @@
-from tensorflow.keras.datasets import fashion_mnist, cifar10
+from tensorflow.keras.datasets import fashion_mnist, cifar10, mnist
 from tensorflow.keras.utils import get_file
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
@@ -11,12 +11,85 @@ from colorama import Fore, Style
 
 def source_images(data=None):
 
-    if data == "mnist":
+    if data == "fashion":
 
         (train_images, train_labels), (
             test_images,
             test_labels,
         ) = fashion_mnist.load_data()
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"The shape of the training data is: {train_images.shape} {train_labels.shape}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"The shape of the testing data is: {test_images.shape} {test_labels.shape}"
+            + Style.RESET_ALL
+        )
+
+        unique, counts = np.unique(train_labels, return_counts=True)
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Training set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
+            + Style.RESET_ALL
+        )
+
+        unique, counts = np.unique(test_labels, return_counts=True)
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with unique classes:"
+            + "\n"
+            + f"\nℹ️ {unique}"
+            + Style.RESET_ALL
+        )
+
+        print(
+            "\nℹ️ "
+            + Fore.CYAN
+            + f"Testing set with distribution of class:"
+            + "\n"
+            + f"\nℹ️ {counts}"
+            + Style.RESET_ALL
+        )
+
+        (train_images, train_labels), (test_images, test_labels,) = (
+            train_images.reshape(
+                (train_images.shape[0], train_images.shape[1], train_images.shape[2], 1)
+            ),
+            train_labels,
+        ), (
+            test_images.reshape(
+                (test_images.shape[0], test_images.shape[1], test_images.shape[2], 1)
+            ),
+            test_labels,
+        )
+
+    if data == "digit":
+
+        (train_images, train_labels), (
+            test_images,
+            test_labels,
+        ) = mnist.load_data()
 
         print(
             "\nℹ️ "
@@ -231,9 +304,7 @@ def source_images(data=None):
 
         return train_generator, idx_labels, valid_generator
 
-    if data == None:
-        print('No data loaded')
-
+    # if train_images != None: # the others?!
     (
         train_dataset,
         validation_dataset,
